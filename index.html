@@ -351,8 +351,8 @@
       gap: 8px;
       min-height: 48px;
       padding: 0 22px;
-      border-radius: 999px;
-      border: 1px solid transparent;
+      border-radius: 8px;
+      border: none;
       font-size: 0.82rem;
       font-weight: 400;
       letter-spacing: 0.1em;
@@ -367,36 +367,38 @@
     }
 
     .btn-primary {
-      background: var(--bg-dark);
-      color: var(--bg);
+      background: var(--accent);
+      color: #fff;
+      border: none;
       box-shadow: var(--shadow-card);
     }
 
     .btn-primary:hover,
     .btn-primary:focus-visible {
-      background: var(--text);
-      box-shadow: 0 20px 45px rgba(var(--bg-dark-rgb), 0.18);
+      background: rgba(var(--accent-rgb), 0.84);
+      box-shadow: 0 20px 45px rgba(var(--accent-rgb), 0.28);
     }
 
     .btn-secondary {
-      background: rgba(var(--accent-rgb), 0.14);
-      color: var(--text);
-      border-color: rgba(var(--accent-rgb), 0.35);
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
     }
 
     .btn-secondary:hover,
     .btn-secondary:focus-visible {
-      background: rgba(var(--accent-rgb), 0.2);
+      background: var(--accent);
+      color: #fff;
     }
 
     .btn-outline {
       background: transparent;
       color: var(--text);
-      border-color: rgba(var(--bg-rgb), 0.28);
+      border: 1px solid rgba(var(--bg-rgb), 0.28);
     }
 
     .header .btn-outline {
-      border-color: rgba(var(--accent-rgb), 0.3);
+      border: 1px solid rgba(var(--accent-rgb), 0.3);
       color: var(--text);
       background: rgba(var(--bg-rgb), 0.74);
     }
@@ -405,20 +407,22 @@
       min-width: 220px;
       background: rgba(var(--bg-rgb), 0.94);
       color: var(--text);
+      border: none;
       box-shadow: 0 22px 50px rgba(var(--bg-dark-rgb), 0.18);
     }
 
     .hero .btn-primary:hover,
     .hero .btn-primary:focus-visible {
       background: var(--accent);
-      color: var(--bg);
+      color: #fff;
     }
 
     .concept-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.78fr);
-      gap: 44px;
-      align-items: start;
+      display: block;
+    }
+
+    .concept-grid > * + * {
+      margin-top: 2rem;
     }
 
     .concept-prose {
@@ -790,7 +794,7 @@
     }
 
     .reservation-actions .btn-outline {
-      border-color: rgba(var(--accent-rgb), 0.34);
+      border: 1px solid rgba(var(--accent-rgb), 0.34);
       background: rgba(var(--bg-rgb), 0.78);
     }
 
@@ -836,7 +840,7 @@
 
     .cta-section .btn-outline {
       color: var(--bg);
-      border-color: rgba(var(--bg-rgb), 0.32);
+      border: 1px solid rgba(var(--bg-rgb), 0.32);
     }
 
     .footer {

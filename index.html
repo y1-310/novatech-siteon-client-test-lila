@@ -51,9 +51,11 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
+      overflow-x: hidden;
       margin: 0;
       font-family: var(--font-body);
       font-size: 14.5px;
@@ -1052,6 +1054,62 @@
         transform: none;
       }
     }
+
+    /* ── Hamburger + Mobile Nav ─────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: currentColor;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger span + span { margin-top: 6px; }
+    .hamburger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      height: 100dvh;
+      height: -webkit-fill-available;
+      background: rgba(var(--bg-rgb), 0.98);
+      backdrop-filter: blur(16px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-nav .btn { margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      .nav-list { display: none; }
+      .hamburger { display: flex; }
+    }
   </style>
   <noscript>
     <style>
@@ -1134,8 +1192,21 @@
           <li><a href="#reservation" class="btn btn-outline">ご予約はこちら</a></li>
         </ul>
       </nav>
+      <button class="hamburger" id="lila-hamburger" aria-expanded="false" aria-label="メニューを開く" aria-controls="lila-mobile-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
     </div>
   </header>
+  <!-- Mobile Nav -->
+  <div id="lila-mobile-nav" class="mobile-nav" role="dialog" aria-label="モバイルナビゲーション">
+    <a href="#concept" onclick="lilaCloseNav()">コンセプト</a>
+    <a href="#menu" onclick="lilaCloseNav()">メニュー</a>
+    <a href="#gallery" onclick="lilaCloseNav()">ギャラリー</a>
+    <a href="#access" onclick="lilaCloseNav()">アクセス</a>
+    <a href="#reservation" class="btn btn-primary" onclick="lilaCloseNav()">ご予約はこちら</a>
+  </div>
 
   <main id="main">
     <section class="hero" aria-label="メインビジュアル">
@@ -1515,6 +1586,29 @@
         fadeTargets.forEach((target) => target.classList.add('visible'));
       }
     })();
+  </script>
+  <script>
+  (function(){
+    var btn = document.getElementById('lila-hamburger');
+    var nav = document.getElementById('lila-mobile-nav');
+    function lilaCloseNav(){
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded','false');
+      nav.classList.remove('open');
+      document.body.style.overflow='';
+    }
+    window.lilaCloseNav = lilaCloseNav;
+    btn.addEventListener('click',function(){
+      var open = btn.getAttribute('aria-expanded')==='true';
+      if(open){ lilaCloseNav(); }
+      else{
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded','true');
+        nav.classList.add('open');
+        document.body.style.overflow='hidden';
+      }
+    });
+  })();
   </script>
 </body>
 </html>

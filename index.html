@@ -1134,6 +1134,27 @@
       overflow-wrap: anywhere;
     }
 
+    /* 1c. 日本語の禁則処理（rules.md cat9 改行）
+       overflow-wrap: anywhere は禁則を無視して折り返すため、長音符「ー」や
+       促音「ッ」、句読点が行頭に孤立する。line-break: strict で禁則を効かせる。
+       keep-all と違い min-content 幅を変えないので、横はみ出しを起こさない。 */
+    body {
+      line-break: strict;
+    }
+
+    /* 1b. 見出しの語中改行を止める（rules.md 52 / cat9 改行）
+       上の anywhere は body * に効くため、見出しでも語中で改行が起き、
+       長音符「ー」や拗促音「ッ」が行頭に孤立する。
+       h1/h2 だけ keep-all に戻して文節で改行させる。
+       h3 以下は対象外。break-word は min-content 幅を縮めないため、
+       グリッド内の小見出しに当てると 320px で溢れる（mori 実測 294px > 288px）。 */
+    h1, h2 {
+      word-break: keep-all;
+      /* normal だと収まらない見出しがそのまま溢れる（forge 393>390 / mori 594>430 実測）。
+         break-word なら通常は文節で改行し、溢れる場合だけ語中で折り返す。 */
+      overflow-wrap: break-word;
+    }
+
     /* 2. アンカーの着地点を固定ヘッダーの下に出す */
     [id] {
       scroll-margin-top: calc(var(--mb-header-h) + 12px);

@@ -371,7 +371,9 @@
 
     .btn-primary {
       background: var(--accent);
-      color: #fff;
+      /* ブランド色の上で白文字はコントラスト不足（rules.md 35 / WCAG AA 4.5:1）。
+         背景色を変えるとブランドが変わるため、文字色を既存パレットの濃色にする。 */
+      color: var(--text);
       border: none;
       box-shadow: var(--shadow-card);
     }
@@ -391,7 +393,7 @@
     .btn-secondary:hover,
     .btn-secondary:focus-visible {
       background: var(--accent);
-      color: #fff;
+      color: var(--text);
     }
 
     .btn-outline {
@@ -417,7 +419,7 @@
     .hero .btn-primary:hover,
     .hero .btn-primary:focus-visible {
       background: var(--accent);
-      color: #fff;
+      color: var(--text);
     }
 
     .concept-grid {

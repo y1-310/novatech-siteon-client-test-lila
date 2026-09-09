@@ -29,7 +29,7 @@
       --bg-dark: #2A2325;
       --text: #2A2325;
       --text-mid: #524A4C;
-      --text-light: #7A7072;
+      --text-light: #6B6163;
       --accent: #C4919A;
       --line: #E0D6D4;
       --r: 12px;
@@ -174,8 +174,11 @@
       inset: 0 0 auto;
       z-index: 200;
       transition: background-color 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
-      background: transparent;
-      border-bottom: 1px solid transparent;
+            /* 透明ヘッダーは背後の写真の明暗に依存するため、文字が読める保証がない。
+         2026-09-09 実測でナビが 1.06〜3.34 まで落ちていた。最初から地を敷く。 */
+      background: rgba(var(--bg-rgb), 0.93);
+      border-bottom: 1px solid rgba(var(--accent-rgb), 0.12);
+      backdrop-filter: blur(16px);
     }
 
     .header.scrolled {
@@ -259,7 +262,7 @@
 
     .hero-overlay {
       background:
-        linear-gradient(180deg, rgba(var(--bg-dark-rgb), 0.28) 0%, rgba(var(--bg-dark-rgb), 0.42) 100%),
+        linear-gradient(180deg, rgba(var(--bg-dark-rgb), 0.6) 0%, rgba(var(--bg-dark-rgb), 0.7) 100%),
         radial-gradient(circle at 50% 32%, rgba(var(--accent-rgb), 0.18) 0%, rgba(var(--accent-rgb), 0) 42%);
     }
 

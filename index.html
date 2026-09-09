@@ -336,7 +336,7 @@
       gap: 8px;
       min-height: 48px;
       padding: 0 22px;
-      border-radius: 8px;
+      border-radius: var(--r);
       border: none;
       font-size: 0.82rem;
       font-weight: 400;
@@ -601,7 +601,7 @@
     .gallery-card {
       scroll-snap-align: start;
       min-width: 0;
-      border-radius: calc(var(--r) + 4px);
+      border-radius: var(--r);
       overflow: hidden;
       background: rgba(var(--bg-rgb), 0.92);
     }
@@ -677,7 +677,7 @@
     .photo-item {
       position: relative;
       overflow: hidden;
-      border-radius: calc(var(--r) + 2px);
+      border-radius: var(--r);
       background: rgba(var(--bg-rgb), 0.92);
     }
 
@@ -921,6 +921,17 @@
       letter-spacing: 0.01em;
     }
     .section-subtitle { font-size: 0.78rem; letter-spacing: 0.14em; }
+
+
+    /* デモ注記。色は footer から継承させる（ハードコードするとフッターの
+       配色を変えたときに取り残される）。 */
+    .demo-note {
+      margin: 0;
+      padding: 12px 0 16px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: inherit;
+    }
 
     @media (max-width: 1279px) {
       :root {
@@ -1593,7 +1604,6 @@
     <section class="cta-section">
       <div class="container">
         <div class="cta-box fade-in">
-          <p class="cta-catch" lang="en">Reserve Your Quiet Mood</p>
           <p class="cta-sub">手元を見るたび、少し気持ちが整う。そんなネイルの時間をご用意して、お客様をお待ちしています。</p>
           <div class="cta-actions">
             <a href="#reservation" class="btn btn-primary">ご予約はこちら</a>
@@ -1621,7 +1631,8 @@
       </div>
       <p class="footer-copy">&copy; 2026 lila. All rights reserved.</p>
     </div>
-  </footer>
+    <p class="demo-note">※ SateOnの制作イメージです。実在する店舗・企業ではありません。</p>
+</footer>
 
   <div class="sticky-cta">
     <a href="#reservation" class="btn btn-primary">ご予約はこちら</a>

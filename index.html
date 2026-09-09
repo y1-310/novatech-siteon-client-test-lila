@@ -952,6 +952,11 @@
     .btn:lang(ja),
     .button:lang(ja) { letter-spacing: 0.04em; }
 
+
+    /* 和文混在の親から text-transform を継承していた英字ラベル。
+       :lang(ja) の打ち消しが親に当たるため、ここで明示的に戻す。 */
+    [data-caps] { text-transform: uppercase; }
+
     @media (max-width: 1279px) {
       :root {
         --section-pad: 80px;
@@ -1297,7 +1302,7 @@
     <div class="container header-inner">
       <a href="#top" class="brand">
         <span class="brand-mark" lang="en">lila</span>
-        <span class="brand-sub">nail atelier</span>
+        <span class="brand-sub" lang="en">nail atelier</span>
       </a>
       <nav aria-label="ページ内ナビゲーション">
         <ul class="nav-list">
@@ -1338,7 +1343,7 @@
         <a href="#reservation" class="btn btn-primary">ご予約はこちら</a>
       </div>
       <div class="hero-scroll" aria-hidden="true">
-        <span lang="en">Scroll</span>
+        <span lang="en" data-caps>Scroll</span>
       </div>
     </section>
 
@@ -1462,28 +1467,28 @@
             <img src="assets/gallery-onecolor.webp" alt="くすみピンクのワンカラー" width="800" height="800" loading="lazy">
             <div class="gallery-meta">
               <strong>Soft Pink</strong>
-              <span>one color</span>
+              <span lang="en">one color</span>
             </div>
           </article>
           <article class="gallery-card">
             <img src="assets/gallery-lineart.webp" alt="細いラインアートのネイル" width="800" height="800" loading="lazy">
             <div class="gallery-meta">
               <strong>Quiet Line</strong>
-              <span>simple art</span>
+              <span lang="en">simple art</span>
             </div>
           </article>
           <article class="gallery-card">
             <img src="assets/gallery-gradation.webp" alt="上品なグラデーションネイル" width="800" height="800" loading="lazy">
             <div class="gallery-meta">
               <strong>Mist Gradation</strong>
-              <span>gradation</span>
+              <span lang="en">gradation</span>
             </div>
           </article>
           <article class="gallery-card">
             <img src="assets/gallery-nuance.webp" alt="ニュアンスアートのネイル" width="800" height="800" loading="lazy">
             <div class="gallery-meta">
               <strong>Nuance Veil</strong>
-              <span>art course</span>
+              <span lang="en">art course</span>
             </div>
           </article>
           <article class="gallery-card">
@@ -1496,7 +1501,7 @@
             <img src="assets/gallery-clear.webp" alt="透明感のあるアートネイル" width="800" height="800" loading="lazy">
             <div class="gallery-meta">
               <strong>Clear Mood</strong>
-              <span>minimal</span>
+              <span lang="en">minimal</span>
             </div>
           </article>
         </div>

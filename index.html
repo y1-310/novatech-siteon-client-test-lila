@@ -167,25 +167,7 @@
       border-top: 1px solid var(--line);
     }
 
-    .marquee {
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 20px 0;
-      color: var(--text-light);
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-style: italic;
-      font-weight: 400;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: rgba(var(--bg-rgb), 0.72);
-    }
 
-    .marquee-inner {
-      display: inline-block;
-      min-width: 200%;
-      animation: marquee 25s linear infinite;
-    }
 
     .header {
       position: fixed;
@@ -910,14 +892,6 @@
       transform: translateY(0);
     }
 
-    @keyframes marquee {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
 
     @keyframes scroll-line {
       0%,
@@ -930,6 +904,23 @@
         opacity: 1;
       }
     }
+
+
+    /* ===== タイポ・余白レイヤー（2026-09-09 / A/B検証で採用したタイポ）=====
+       bloom で before/after を実測して採用。配色・装飾・文言は変更しない。
+       必ず mobile-safety のメディアクエリより前に置く。
+       後ろに置くと 12px 下限などの安全ルールを詳細度なしで打ち消す。 */
+
+    body { font-size: 16px; line-height: 1.8; }
+    p, li, dd { line-height: 1.85; }
+
+    .section-head { gap: 2px; margin-bottom: clamp(36px, 4.5vw, 64px); }
+    .section-title {
+      font-size: clamp(2.4rem, 6.4vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+    }
+    .section-subtitle { font-size: 0.78rem; letter-spacing: 0.14em; }
 
     @media (max-width: 1279px) {
       :root {
@@ -1223,10 +1214,6 @@
         backdrop-filter: blur(16px) !important;
       }
 
-      .marquee-inner {
-        animation: none !important;
-        min-width: auto !important;
-      }
     </style>
   </noscript>
   <script type="application/ld+json">
@@ -1325,12 +1312,7 @@
       </div>
     </section>
 
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-inner">
-        <span>Quiet elegance for your fingertips - Quiet elegance for your fingertips - </span>
-        <span>Quiet elegance for your fingertips - Quiet elegance for your fingertips - </span>
-      </div>
-    </div>
+    
 
     <section id="concept" class="section">
       <div class="container">
@@ -1491,12 +1473,7 @@
       </div>
     </section>
 
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-inner">
-        <span>Simple art, careful care, and a gentle pause - Simple art, careful care, and a gentle pause - </span>
-        <span>Simple art, careful care, and a gentle pause - Simple art, careful care, and a gentle pause - </span>
-      </div>
-    </div>
+    
 
     <section id="staff" class="section">
       <div class="container">

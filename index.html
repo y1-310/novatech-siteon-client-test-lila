@@ -327,7 +327,8 @@
     .hero-note {
       max-width: 600px;
       font-size: var(--t-small);
-      color: rgba(var(--bg-rgb), 0.84);
+      /* 写真の上の文字を半透明にすると明部で一気に落ちる（実測 4.35）。不透明にする。 */
+      color: var(--bg);
     }
 
     .hero-scroll {

@@ -43,7 +43,16 @@
       --section-pad: 120px;
       --sticky-offset: 88px;
       --shadow-card: 0 18px 40px rgba(var(--accent-rgb), 0.12);
-    }
+    
+      /* ===== タイプスケール（Refero Styles の DESIGN.md 形式に倣う）=====
+         役割ごとに1つだけ値を持ち、表にない値は新しく作らない。
+         大きい見出しはサイト固有の設計なのでここには含めない。 */
+      --t-caption: 0.8rem;
+      --t-small: 0.9rem;
+      --t-body: 1rem;
+      --t-lead: 1.15rem;
+      --t-subheading: clamp(1.25rem, 2vw, 1.5rem);
+}
 
     * {
       box-sizing: border-box;
@@ -54,11 +63,25 @@
       overflow-x: hidden;
     }
 
+    /* h2 / h3 に font-size の指定がなく、ブラウザ既定（24px / 18.7px）のままだった。
+       役割として明示する。クラスで別途指定している見出しはそちらが優先される。 */
+    h2 {
+      font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+      line-height: 1.45;
+      font-weight: 400;
+    }
+
+    h3 {
+      font-size: var(--t-subheading);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
     body {
       overflow-x: hidden;
       margin: 0;
       font-family: var(--font-body);
-      font-size: 14.5px;
+      font-size: var(--t-small);
       font-weight: 300;
       line-height: 1.9;
       color: var(--text);
@@ -139,7 +162,7 @@
       display: inline-block;
       margin-bottom: 10px;
       font-family: var(--font-display);
-      font-size: 0.72rem;
+      font-size: var(--t-caption);
       font-weight: 400;
       letter-spacing: 0.2em;
       color: var(--accent);
@@ -155,7 +178,7 @@
     .section-subtitle {
       margin-top: 6px;
       font-family: var(--font-heading);
-      font-size: 0.85rem;
+      font-size: var(--t-small);
       color: var(--text-light);
       letter-spacing: 0.08em;
     }
@@ -212,7 +235,7 @@
     }
 
     .brand-sub {
-      font-size: 0.72rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-light);
@@ -230,7 +253,7 @@
       min-height: 44px;
       display: inline-flex;
       align-items: center;
-      font-size: 0.82rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.08em;
       color: var(--text-mid);
     }
@@ -288,7 +311,7 @@
     }
 
     .hero-tag {
-      font-size: 0.84rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.28em;
       text-transform: uppercase;
       opacity: 0.92;
@@ -297,13 +320,13 @@
     .hero-copy {
       max-width: 560px;
       font-family: var(--font-heading);
-      font-size: clamp(1.05rem, 2.1vw, 1.3rem);
+      font-size: var(--t-subheading);
       line-height: 2;
     }
 
     .hero-note {
       max-width: 600px;
-      font-size: 0.92rem;
+      font-size: var(--t-small);
       color: rgba(var(--bg-rgb), 0.84);
     }
 
@@ -318,7 +341,7 @@
       align-items: center;
       gap: 8px;
       color: rgba(var(--bg-rgb), 0.8);
-      font-size: 0.7rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
@@ -341,7 +364,7 @@
       padding: 0 22px;
       border-radius: var(--r);
       border: none;
-      font-size: 0.82rem;
+      font-size: var(--t-caption);
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -441,7 +464,7 @@
     .concept-card small {
       display: block;
       margin-top: 14px;
-      font-size: 0.76rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-light);
@@ -482,14 +505,14 @@
       display: inline-block;
       margin-bottom: 8px;
       font-family: var(--font-display);
-      font-size: 0.86rem;
+      font-size: var(--t-small);
       letter-spacing: 0.16em;
       color: var(--accent);
     }
 
     .feature-text h3 {
       font-family: var(--font-heading);
-      font-size: 1.18rem;
+      font-size: var(--t-lead);
       font-weight: 400;
       margin-bottom: 12px;
     }
@@ -526,7 +549,7 @@
     }
 
     .menu-heading p {
-      font-size: 0.84rem;
+      font-size: var(--t-caption);
       color: var(--text-light);
     }
 
@@ -548,7 +571,7 @@
       display: grid;
       gap: 6px;
       grid-column: 1;
-      font-size: 0.92rem;
+      font-size: var(--t-small);
       font-weight: 400;
       color: var(--text);
     }
@@ -557,21 +580,21 @@
       grid-column: 2;
       text-align: right;
       font-family: var(--font-display);
-      font-size: 1.02rem;
+      font-size: var(--t-body);
       font-weight: 500;
       white-space: nowrap;
       color: var(--text);
     }
 
     .menu-meta {
-      font-size: 0.74rem;
+      font-size: var(--t-caption);
       color: var(--text-light);
       letter-spacing: 0.05em;
     }
 
     .tax {
       font-family: var(--font-body);
-      font-size: 0.75rem;
+      font-size: var(--t-caption);
       color: var(--text-light);
       letter-spacing: 0;
     }
@@ -581,7 +604,7 @@
       gap: 8px;
       margin-top: 18px;
       color: var(--text-mid);
-      font-size: 0.82rem;
+      font-size: var(--t-caption);
     }
 
     .menu-cta {
@@ -623,12 +646,12 @@
     }
 
     .gallery-meta strong {
-      font-size: 0.92rem;
+      font-size: var(--t-small);
       font-weight: 400;
     }
 
     .gallery-meta span {
-      font-size: 0.76rem;
+      font-size: var(--t-caption);
       color: var(--text-light);
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -653,7 +676,7 @@
 
     .staff-card h3 {
       font-family: var(--font-heading);
-      font-size: 1.12rem;
+      font-size: var(--t-lead);
       font-weight: 400;
       margin-bottom: 8px;
     }
@@ -662,7 +685,7 @@
       display: block;
       margin-bottom: 12px;
       font-family: var(--font-display);
-      font-size: 0.9rem;
+      font-size: var(--t-small);
       letter-spacing: 0.08em;
       color: var(--accent);
     }
@@ -702,7 +725,7 @@
       background: rgba(var(--bg-rgb), 0.86);
       color: var(--text);
       font-family: var(--font-display);
-      font-size: 0.82rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.08em;
       backdrop-filter: blur(10px);
     }
@@ -780,7 +803,7 @@
       padding: 14px 18px;
       text-transform: none;
       letter-spacing: 0.04em;
-      font-size: 0.88rem;
+      font-size: var(--t-small);
     }
 
     .reservation-actions .btn-outline {
@@ -790,7 +813,7 @@
 
     .reservation-help {
       margin-top: 20px;
-      font-size: 0.8rem;
+      font-size: var(--t-caption);
       color: var(--text-light);
     }
 
@@ -862,7 +885,7 @@
 
     .footer-copy {
       color: var(--text-mid);
-      font-size: 0.76rem;
+      font-size: var(--t-caption);
       letter-spacing: 0.06em;
     }
 
@@ -914,7 +937,7 @@
        必ず mobile-safety のメディアクエリより前に置く。
        後ろに置くと 12px 下限などの安全ルールを詳細度なしで打ち消す。 */
 
-    body { font-size: 16px; line-height: 1.8; }
+    body { font-size: var(--t-body); line-height: 1.8; }
     p, li, dd { line-height: 1.85; }
 
     .section-head { gap: 2px; margin-bottom: clamp(36px, 4.5vw, 64px); }
@@ -923,7 +946,7 @@
       line-height: 0.98;
       letter-spacing: 0.01em;
     }
-    .section-subtitle { font-size: 0.78rem; letter-spacing: 0.14em; }
+    .section-subtitle { font-size: var(--t-caption); letter-spacing: 0.14em; }
 
 
     /* デモ注記。色は footer から継承させる（ハードコードするとフッターの
@@ -932,7 +955,7 @@
       margin: 0;
       padding: 12px 0 16px;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: var(--t-caption);
       color: inherit;
     }
 
@@ -1022,7 +1045,7 @@
       }
 
       .nav-list a:not(.btn) {
-        font-size: 0.74rem;
+        font-size: var(--t-caption);
       }
 
       .hero-content {
@@ -1030,7 +1053,7 @@
       }
 
       .hero-note {
-        font-size: 0.84rem;
+        font-size: var(--t-caption);
       }
 
       .concept-card,
@@ -1130,7 +1153,7 @@
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a {
-      font-size: 1.1rem;
+      font-size: var(--t-lead);
       letter-spacing: 0.12em;
       color: var(--text);
       text-decoration: none;
@@ -1202,7 +1225,7 @@
       input,
       select,
       textarea {
-        font-size: 16px;
+        font-size: var(--t-body);
       }
 
       a[href^="tel:"],
@@ -1235,7 +1258,7 @@
       .brand-sub,
       .menu-meta,
       .section-number {
-        font-size: 12px;
+        font-size: var(--t-caption);
       }
     }
 </style>

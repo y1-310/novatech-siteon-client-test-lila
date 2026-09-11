@@ -229,7 +229,7 @@
 
     .brand-mark {
       font-family: var(--font-display);
-      font-size: 1.9rem;
+      font-size: var(--t-subheading);
       line-height: 1;
       letter-spacing: 0.12em;
     }
@@ -447,7 +447,7 @@
 
     .concept-lead {
       font-family: var(--font-heading);
-      font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+      font-size: var(--t-subheading);
       line-height: 1.85;
       color: var(--text);
     }
@@ -544,7 +544,7 @@
 
     .menu-heading h3 {
       font-family: var(--font-display);
-      font-size: 1.7rem;
+      font-size: var(--t-subheading);
       font-weight: 400;
       letter-spacing: 0.08em;
     }
@@ -871,7 +871,7 @@
 
     .footer-logo {
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: var(--t-subheading);
       letter-spacing: 0.14em;
     }
 
@@ -1159,6 +1159,11 @@
       color: var(--text);
       text-decoration: none;
       transition: color 0.2s;
+      /* 展開したメニューで高さ 33px しかなかった（rules.md 36） */
+      display: inline-flex;
+      align-items: center;
+      min-width: 44px;
+      min-height: 44px;
     }
     .mobile-nav .btn { margin-top: 8px; }
 
@@ -1184,7 +1189,11 @@
        grid / flex の min-content 幅にも効かせるため全要素に指定する。 */
     body,
     body * {
-      overflow-wrap: anywhere;
+      /* 2026-09-11 rules.md 78: anywhere は禁則（line-break: strict）を無効にし、
+         長音符「ー」や句読点を行頭に孤立させる。break-word なら禁則が効く。
+         break-word は min-content 幅を縮めないため、37/39（minmax(0,1fr) /
+         min-width: 0）を満たしていることが前提になる。 */
+      overflow-wrap: break-word;
     }
 
     /* 1c. 日本語の禁則処理（rules.md cat9 改行）
@@ -1690,7 +1699,7 @@
   </div>
 
   <noscript>
-    <div class="container" style="padding: 16px 0 0; color: var(--text-light); font-size: 0.78rem;">
+    <div class="container" style="padding: 16px 0 0; color: var(--text-light); font-size: var(--t-caption);">
       JavaScriptを無効にしていても、ページの閲覧と予約導線はそのままご利用いただけます。
     </div>
   </noscript>
@@ -1748,5 +1757,130 @@
     });
   })();
   </script>
+<!-- モバイルメニューのフォーカストラップと背面スクロール固定（共通 / rules.md 33） -->
+<script>
+  (function () {
+    var FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,summary,[tabindex]:not([tabindex="-1"])';
+    var toggle = null;
+    var cands = document.querySelectorAll('button[aria-expanded],[role=button][aria-expanded],a[aria-expanded]');
+    for (var i = 0; i < cands.length; i++) {
+      var c = cands[i];
+      if (c.closest('header,nav') && c.getBoundingClientRect().top < 200) { toggle = c; break; }
+    }
+    if (!toggle) return;
+
+    var panel = null;
+    var id = toggle.getAttribute('aria-controls');
+    if (id) panel = document.getElementById(id);
+
+    var findPanel = function () {
+      if (panel) return panel;
+      // aria-controls を持たないサイト用。開いたときに一番大きく見えているナビを使う
+      var best = null, area = 0;
+      var list = document.querySelectorAll('nav,[role=dialog],.mobile-menu,.nav-panel,.menu-panel');
+      for (var i = 0; i < list.length; i++) {
+        var e = list[i];
+        if (e === toggle || e.contains(toggle)) continue;
+        if (e.checkVisibility && !e.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+        var r = e.getBoundingClientRect();
+        if (r.width * r.height > area) { area = r.width * r.height; best = e; }
+      }
+      return best;
+    };
+
+    var lastFocused = null;
+    var scrollY = 0;
+    var locked = false;
+
+    var lock = function () {
+      if (locked) return;
+      locked = true;
+      scrollY = window.scrollY || window.pageYOffset;
+      var b = document.body;
+      b.style.position = 'fixed';
+      b.style.top = -scrollY + 'px';
+      b.style.left = '0';
+      b.style.right = '0';
+      b.style.width = '100%';
+    };
+    var unlock = function () {
+      if (!locked) return;
+      locked = false;
+      var b = document.body;
+      b.style.position = '';
+      b.style.top = '';
+      b.style.left = '';
+      b.style.right = '';
+      b.style.width = '';
+      window.scrollTo(0, scrollY);
+    };
+
+    var isOpen = function () { return toggle.getAttribute('aria-expanded') === 'true'; };
+
+    var onOpen = function () {
+      var p = findPanel();
+      if (!p) return;
+      // サイト側が先にパネル内へフォーカスを移していることがある。
+      // その要素を「戻り先」に覚えると、閉じたあと消えた要素へ戻そうとして
+      // フォーカスが body に落ちる。パネルの外にある要素だけを覚える。
+      var prev = document.activeElement;
+      lastFocused = (prev && !p.contains(prev) && prev !== document.body) ? prev : toggle;
+      lock();
+      if (!p.contains(document.activeElement)) {
+        var f = p.querySelector(FOCUSABLE);
+        if (f) f.focus();
+      }
+    };
+    var onClose = function () {
+      unlock();
+      var back = (lastFocused && document.body.contains(lastFocused)) ? lastFocused : toggle;
+      var r = back.getBoundingClientRect();
+      if (!r.width || !r.height) back = toggle;
+      back.focus();
+      lastFocused = null;
+    };
+
+    new MutationObserver(function () {
+      if (isOpen()) onOpen(); else if (locked || lastFocused) onClose();
+    }).observe(toggle, { attributes: true, attributeFilter: ['aria-expanded'] });
+
+    document.addEventListener('keydown', function (ev) {
+      if (!isOpen()) return;
+      var p = findPanel();
+      if (!p) return;
+
+      if (ev.key === 'Escape') {
+        // サイト側が自分で閉じることがある。閉じていなければこちらで閉じる
+        setTimeout(function () { if (isOpen()) toggle.click(); }, 0);
+        return;
+      }
+      if (ev.key !== 'Tab') return;
+
+      var items = [];
+      var all = p.querySelectorAll(FOCUSABLE);
+      for (var i = 0; i < all.length; i++) {
+        var r = all[i].getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) items.push(all[i]);
+      }
+      if (!items.length) return;
+      items.push(toggle);           // 閉じるボタンも輪の中に入れる
+      // Tab の順番は DOM 順で決まる。開閉ボタンがパネルより前にあるサイトでは
+      // 配列の末尾＝Tab の最後、にならないため、必ず DOM 順に並べ直す。
+      items.sort(function (x, y) {
+        var pos = x.compareDocumentPosition(y);
+        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        return 0;
+      });
+      var first = items[0], last = items[items.length - 1];
+      var a = document.activeElement;
+      var inside = p.contains(a) || a === toggle;
+
+      if (!inside) { ev.preventDefault(); first.focus(); }
+      else if (ev.shiftKey && a === first) { ev.preventDefault(); last.focus(); }
+      else if (!ev.shiftKey && a === last) { ev.preventDefault(); first.focus(); }
+    }, true);
+  })();
+</script>
 </body>
 </html>
